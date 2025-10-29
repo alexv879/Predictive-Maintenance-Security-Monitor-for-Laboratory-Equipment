@@ -2,6 +2,13 @@
 # -*- coding: utf-8 -*-
 """
 Dataset smoke tests for Premonitor project.
+
+NOTE: This test requires datasets to be downloaded locally.
+Datasets are NOT included in the repository due to size (~82 GB).
+
+To download datasets, see: docs/DATASETS_DOWNLOAD_GUIDE.md
+
+This test is skipped in CI by default.
 """
 
 import sys

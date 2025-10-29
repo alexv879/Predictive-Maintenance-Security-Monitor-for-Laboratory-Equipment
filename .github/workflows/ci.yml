@@ -42,35 +42,23 @@ jobs:
         flake8 pythonsoftware/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       continue-on-error: true
 
-    - name: Validate Datasets
-      run: |
-        python scripts/check_datasets.py
-      continue-on-error: true
-
-    - name: Run Dataset Tests
-      run: |
-        python tests/test_datasets.py
-
     - name: Run Import Tests
       run: |
         python tests/test_imports.py
       continue-on-error: true
 
-    - name: Smoke Test Training
+    - name: Run Equipment Registry Tests
       run: |
-        python train.py --mode smoke_test --model all
+        python tests/test_equipment_registry.py
       continue-on-error: false
 
-    - name: Export TFLite Models
+    - name: Run Alert Logic Tests
       run: |
-        python export_tflite.py --model thermal_smoke_test --quantize int8
-        python export_tflite.py --model acoustic_smoke_test --quantize int8
+        python -m pytest tests/test_alert_logic.py -v --disable-warnings
       continue-on-error: false
 
-    - name: Run Pi Smoke Test
-      run: |
-        python pi_smoke_test.py
-      continue-on-error: false
+    # Dataset tests and training require datasets (not in repo)
+    # See docs/DATASETS_DOWNLOAD_GUIDE.md for download instructions
 
     - name: Generate Test Report
       if: always()
@@ -78,23 +66,23 @@ jobs:
         python tests/run_all_tests.py
       continue-on-error: true
 
-  dataset-validation:
-    name: Dataset Validation
-    runs-on: windows-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-
-    - name: Detailed Dataset Check
-      run: |
-        python scripts/check_datasets.py --verbose
-      continue-on-error: true
+  # Dataset validation requires datasets to be downloaded locally
+  # See docs/DATASETS_DOWNLOAD_GUIDE.md for instructions
+  # Uncomment below if you have datasets in CI environment
+  
+  # dataset-validation:
+  #   name: Dataset Validation
+  #   runs-on: windows-latest
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v3
+  #   - name: Set up Python
+  #     uses: actions/setup-python@v4
+  #     with:
+  #       python-version: '3.11'
+  #   - name: Detailed Dataset Check
+  #     run: |
+  #       python scripts/check_datasets.py --verbose
 
   code-quality:
     name: Code Quality Checks
