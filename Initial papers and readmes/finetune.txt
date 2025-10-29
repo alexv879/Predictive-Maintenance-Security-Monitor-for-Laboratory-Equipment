@@ -1,0 +1,11 @@
+Train the foundational Thermal Anomaly Model using this multi-stage approach:
+
+Load XceptionNet with ImageNet weights.
+
+Fine-tune on the AAU VAP dataset.
+
+Continue fine-tuning the resulting model on the FLIR dataset.
+
+
+
+https://www.flir.com/oem/adas/adas-dataset-agree/

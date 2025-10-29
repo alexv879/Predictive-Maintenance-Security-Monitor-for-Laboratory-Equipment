@@ -1,0 +1,379 @@
+# PREMONITOR Training Configuration
+# This file contains all hyperparameters and settings for model training
+# Last updated: 2025-10-29
+
+# ==============================================================================
+# GENERAL SETTINGS
+# ==============================================================================
+general:
+  random_seed: 42
+  use_gpu: true
+  mixed_precision: false  # Set true for faster training on compatible GPUs
+  verbose: 1
+  project_name: "premonitor"
+  experiment_name: "mvp_v1"
+
+# ==============================================================================
+# PATHS
+# ==============================================================================
+paths:
+  # Base directories
+  base_dir: "D:\\PREMONITOR"
+  datasets_dir: "D:\\PREMONITOR\\datasets"
+  models_dir: "D:\\PREMONITOR\\models"
+  logs_dir: "D:\\PREMONITOR\\logs"
+  checkpoints_dir: "D:\\PREMONITOR\\models\\checkpoints"
+  exported_dir: "D:\\PREMONITOR\\models\\exported"
+  pretrained_dir: "D:\\PREMONITOR\\models\\pretrained"
+
+  # Pretrained model paths
+  pretrained_models:
+    xception_imagenet: "D:\\PREMONITOR\\models\\pretrained\\thermal\\xception_notop_imagenet.h5"
+    thermal_encoder: "D:\\PREMONITOR\\models\\pretrained\\thermal\\thermal_encoder_pretrained.h5"
+    yamnet_hub_url: "https://tfhub.dev/google/yamnet/1"
+    acoustic_baseline: "D:\\PREMONITOR\\models\\pretrained\\acoustic\\mimii_baseline_cnn.h5"
+    lstm_template: "D:\\PREMONITOR\\models\\pretrained\\timeseries\\lstm_autoencoder_template.h5"
+
+  # Dataset paths
+  thermal_datasets:
+    - "D:\\PREMONITOR\\datasets\\thermal camera dataset\\trimodaldataset\\TrimodalDataset"
+
+  audio_datasets:
+    esc50: "D:\\PREMONITOR\\datasets\\datasets audio\\ESC-50-master\\ESC-50-master"
+    urbansound8k: "D:\\PREMONITOR\\datasets\\datasets audio\\urbansound8kdataset"
+    mimii: "D:\\PREMONITOR\\datasets\\datasets audio\\Mimii"  # May not be present
+
+  # Model save paths
+  thermal_encoder_path: "thermal_encoder_pretrained.h5"
+  thermal_classifier_path: "thermal_classifier_best.h5"
+  acoustic_model_path: "acoustic_anomaly_model_best.h5"
+  lstm_ae_model_path: "lstm_autoencoder_model.h5"
+
+# ==============================================================================
+# THERMAL MODEL CONFIGURATION
+# ==============================================================================
+thermal_model:
+  # Architecture
+  backbone: "Xception"
+  input_shape: [224, 224, 3]
+  imagenet_weights: true
+  use_pretrained_encoder: true  # Use pretrained SimSiam encoder if available
+  pretrained_fallback: true      # Fall back to smoke test if pretrained not found
+
+  # Pre-training (SimSiam)
+  pre_training:
+    enabled: true
+    method: "simsiam"
+    epochs: 50
+    batch_size: 32
+    learning_rate: 0.001
+    optimizer: "adam"
+    encoder_dim: 2048
+    predictor_dim: 512
+    # Early stopping
+    patience: 10
+    min_delta: 0.001
+
+  # Fine-tuning (Supervised)
+  fine_tuning:
+    enabled: true
+    epochs: 25
+    batch_size: 32
+    learning_rate: 0.0001  # Lower for fine-tuning
+    optimizer: "adam"
+    freeze_backbone: true  # Initially freeze, can unfreeze later
+    dropout: 0.5
+    # Early stopping
+    patience: 5
+    min_delta: 0.0001
+    # Checkpointing
+    save_best_only: true
+    monitor: "val_accuracy"
+    mode: "max"
+
+  # Data augmentation
+  augmentation:
+    enabled: true
+    random_flip_lr: true
+    random_crop_scale: 0.8
+    random_brightness: 0.2
+    random_rotation: 0  # Disabled for thermal images
+
+  # Class weights (if imbalanced)
+  class_weights:
+    normal: 1.0
+    anomaly: 1.0
+
+# ==============================================================================
+# ACOUSTIC MODEL CONFIGURATION
+# ==============================================================================
+acoustic_model:
+  # Architecture
+  type: "cnn"  # Options: "cnn", "ghostnetv2" (future), "yamnet_transfer"
+  input_shape: [128, 128, 1]  # Spectrogram dimensions
+  use_yamnet_features: false     # Use YAMNet for transfer learning
+  use_pretrained_baseline: true  # Use MIMII pretrained baseline if available
+  pretrained_fallback: true      # Fall back to smoke test if pretrained not found
+
+  # Training
+  training:
+    epochs: 30
+    batch_size: 64
+    learning_rate: 0.001
+    optimizer: "adam"
+    loss: "binary_crossentropy"
+    metrics: ["accuracy"]
+    # Early stopping
+    patience: 7
+    min_delta: 0.001
+    # Checkpointing
+    save_best_only: true
+    monitor: "val_accuracy"
+    mode: "max"
+
+  # Audio preprocessing
+  audio_preprocessing:
+    sample_rate: 16000  # MIMII standard
+    n_mels: 128
+    hop_length: 512
+    n_fft: 2048
+    fmin: 0
+    fmax: 8000  # Nyquist at 16kHz
+    duration: 5.0  # seconds
+
+  # Data augmentation
+  augmentation:
+    enabled: true
+    time_stretch: false  # Can distort anomaly signatures
+    pitch_shift: false   # Can distort anomaly signatures
+    add_noise: false     # Dataset already has background noise
+    vertical_flip: true  # For pseudo-anomaly generation
+
+  # Pseudo-anomaly generation
+  pseudo_anomaly:
+    enabled: true
+    method: "flip"  # Flip spectrogram vertically
+    ratio: 1.0  # 1:1 normal to pseudo-anomaly
+
+  # Multi-class strategy (normal, anomaly, environmental)
+  classes:
+    normal: 0
+    anomaly: 1
+    environmental: 2  # ESC-50, UrbanSound8K
+
+# ==============================================================================
+# LSTM AUTOENCODER CONFIGURATION (Future Implementation)
+# ==============================================================================
+lstm_autoencoder:
+  # Architecture
+  input_shape: [60, 1]  # 60 timesteps, 1 feature (e.g., gas sensor)
+  lstm_units: [32, 16]  # Encoder layers
+  latent_dim: 16
+
+  # Training
+  training:
+    epochs: 100
+    batch_size: 128
+    learning_rate: 0.001
+    optimizer: "adam"
+    loss: "mse"
+    patience: 15
+
+  # Anomaly detection
+  threshold_percentile: 95  # Reconstruction error threshold
+
+# ==============================================================================
+# DATA LOADING
+# ==============================================================================
+data_loading:
+  # Thermal
+  thermal:
+    validation_split: 0.2
+    test_split: 0.1
+    shuffle: true
+    shuffle_buffer: 1000
+
+  # Acoustic
+  acoustic:
+    validation_split: 0.2
+    test_split: 0.1
+    shuffle: true
+    shuffle_buffer: 1000
+
+  # Prefetching
+  prefetch: true
+  num_parallel_calls: -1  # AUTOTUNE
+
+  # Memory management
+  cache: false  # Enable if dataset fits in RAM
+
+# ==============================================================================
+# TRAINING MODES
+# ==============================================================================
+training_modes:
+  # Smoke test mode (small sample for quick validation)
+  smoke_test:
+    enabled: true
+    thermal_samples: 100
+    acoustic_samples: 100
+    epochs: 2
+    batch_size: 16
+
+  # Development mode (subset for faster iteration)
+  development:
+    enabled: false
+    thermal_samples: 1000
+    acoustic_samples: 1000
+    epochs: 10
+
+  # Full training mode
+  full:
+    enabled: false
+    use_all_data: true
+
+# ==============================================================================
+# EXPORT AND QUANTIZATION
+# ==============================================================================
+export:
+  # TFLite export settings
+  tflite:
+    # Float32 baseline
+    export_float32: true
+
+    # Dynamic range quantization (weights only)
+    export_dynamic_range: true
+
+    # Full integer quantization (weights + activations)
+    export_int8: true
+    int8_representative_dataset_size: 100
+    use_real_calibration_data: true  # Use real dataset samples for INT8 calibration
+
+    # Optimization options
+    optimizations:
+      - "DEFAULT"  # Default optimizations
+
+    # Target specs (for int8)
+    supported_ops:
+      - "TFLITE_BUILTINS_INT8"
+      - "TFLITE_BUILTINS"
+
+    # Inference input/output types
+    inference_input_type: "FLOAT32"  # Keep float32 for easier integration
+    inference_output_type: "FLOAT32"
+
+  # Model naming
+  naming:
+    thermal_float32: "thermal_anomaly_model_float32.tflite"
+    thermal_dynamic: "thermal_anomaly_model_dynamic.tflite"
+    thermal_int8: "thermal_anomaly_model_int8.tflite"
+    acoustic_float32: "acoustic_anomaly_model_float32.tflite"
+    acoustic_dynamic: "acoustic_anomaly_model_dynamic.tflite"
+    acoustic_int8: "acoustic_anomaly_model_int8.tflite"
+
+# ==============================================================================
+# VALIDATION AND TESTING
+# ==============================================================================
+validation:
+  # Metrics to track
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1_score"
+    - "auc"
+
+  # Confusion matrix
+  save_confusion_matrix: true
+
+  # Inference speed benchmarking
+  benchmark_inference: true
+  benchmark_samples: 100
+
+  # Model size reporting
+  report_model_size: true
+
+# ==============================================================================
+# LOGGING AND MONITORING
+# ==============================================================================
+logging:
+  # TensorBoard
+  tensorboard:
+    enabled: true
+    log_dir: "logs/tensorboard"
+    update_freq: "epoch"
+    histogram_freq: 1
+    write_graph: true
+    write_images: false  # Can be memory intensive
+
+  # CSV Logger
+  csv_logger:
+    enabled: true
+    filename: "training_history.csv"
+
+  # Console output
+  verbose: 1  # 0=silent, 1=progress bar, 2=one line per epoch
+
+# ==============================================================================
+# CALLBACKS
+# ==============================================================================
+callbacks:
+  # Early stopping
+  early_stopping:
+    enabled: true
+    restore_best_weights: true
+
+  # Learning rate reduction
+  reduce_lr_on_plateau:
+    enabled: true
+    factor: 0.5
+    patience: 5
+    min_lr: 0.00001
+
+  # Model checkpointing
+  model_checkpoint:
+    enabled: true
+    save_freq: "epoch"
+    save_weights_only: false
+
+  # Custom callbacks
+  custom:
+    log_predictions: false
+    save_sample_predictions: false
+
+# ==============================================================================
+# RASPBERRY PI DEPLOYMENT SETTINGS
+# ==============================================================================
+deployment:
+  target_device: "raspberry_pi_4"
+
+  # Resource constraints
+  max_model_size_mb: 10
+  target_inference_time_ms: 200
+  max_memory_mb: 512
+
+  # Runtime
+  use_tflite_runtime: true  # Prefer over full TensorFlow
+  num_threads: 4  # Pi 4 has 4 cores
+
+  # Optimizations
+  use_xnnpack: true
+  use_nnapi: false  # Not available on Pi
+
+# ==============================================================================
+# REPRODUCIBILITY
+# ==============================================================================
+reproducibility:
+  set_random_seed: true
+  tf_deterministic_ops: false  # Can slow down training significantly
+  cudnn_deterministic: false   # Can slow down training significantly
+
+# ==============================================================================
+# NOTES
+# ==============================================================================
+# Last modified: 2025-10-29
+# Configuration version: 1.0
+#
+# Usage:
+#   python train.py --config training_config.yaml --mode smoke_test
+#   python train.py --config training_config.yaml --mode full --model thermal
+#   python export_tflite.py --config training_config.yaml

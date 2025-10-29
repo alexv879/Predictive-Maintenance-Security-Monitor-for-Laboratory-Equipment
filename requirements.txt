@@ -1,0 +1,37 @@
+# Premonitor Project Dependencies
+# Python 3.8+ required
+
+# Core ML/AI frameworks
+tensorflow>=2.13.0,<2.16.0
+numpy>=1.23.0,<2.0.0
+
+# Audio processing
+librosa>=0.10.0
+soundfile>=0.12.0
+
+# Progress bars and utilities
+tqdm>=4.65.0
+
+# Email/alerting (standard library components, but keeping for reference)
+# smtplib, email - part of Python standard library
+
+# For future Twilio integration (commented out for MVP)
+# twilio>=8.0.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Code quality
+flake8>=6.0.0
+black>=23.0.0
+
+# Jupyter notebooks
+jupyter>=1.0.0
+notebook>=7.0.0
+ipython>=8.12.0
+
+# Optional: For hardware integration (commented out until needed)
+# RPi.GPIO>=0.7.1  # Only for Raspberry Pi
+# adafruit-blinka>=8.0.0  # For GPIO on Pi
+# pyaudio>=0.2.13  # For microphone access

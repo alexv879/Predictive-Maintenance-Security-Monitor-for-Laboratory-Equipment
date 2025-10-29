@@ -1,0 +1,15 @@
+{
+  "model_name": "acoustic_smoke_test",
+  "timestamp": "2025-10-29T03:08:55.233318",
+  "model_path": "D:\\PREMONITOR\\models\\checkpoints\\acoustic_smoke_test.h5",
+  "final_metrics": {
+    "accuracy": 0.38749998807907104,
+    "loss": 0.851279616355896,
+    "val_accuracy": 0.5,
+    "val_loss": 0.7011426091194153
+  },
+  "training_config": {
+    "epochs": 2,
+    "final_epoch": 2
+  }
+}

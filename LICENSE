@@ -1,0 +1,89 @@
+Copyright (c) 2025 Alexandru Emanuel Vasile
+All rights reserved.
+
+Proprietary License — PREMONITOR
+
+Permission is NOT granted to copy, modify, distribute, sublicense, publish, or make derivative works of
+this software or its documentation, in whole or in part, except as expressly permitted in writing by
+the copyright holder: Alexandru Emanuel Vasile.
+
+Allowed uses:
+- The copyright holder (Alexandru Emanuel Vasile) and any parties explicitly authorized in writing by
+  the copyright holder may use, run, and test the software.
+- Evaluation or internal use is permitted only with prior written permission.
+
+Prohibited uses (unless explicitly authorized in writing):
+- Redistribution, sale, lease, sublicensing or other distribution to third parties.
+- Use for commercial services, embedded products, or hosted services.
+- Reverse engineering, decompilation, or creating derivative works.
+
+Contact:
+Alexandru Emanuel Vasile
+For permissions or licensing inquiries, contact the copyright holder in writing.
+
+This license is effective as of 2025-10-29.
+BSD 3-Clause License
+
+Copyright (c) 2025, Alexandru Emanuel Vasile
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+---
+
+ADDITIONAL TERMS
+
+Commercial Use Notice:
+If you use this software in a commercial product or service, you must include
+prominent attribution to Alexandru Emanuel Vasile in your product documentation,
+website, and marketing materials.
+
+Patent Notice:
+This software may implement techniques that are subject to patent rights. Users
+are responsible for obtaining any necessary patent licenses.
+
+Warranty Disclaimer:
+This software is provided for equipment monitoring purposes. Alexandru Emanuel
+Vasile makes no warranties regarding the accuracy, reliability, or suitability
+of this software for critical applications. Users assume all risks associated
+with equipment monitoring and are responsible for implementing appropriate
+backup monitoring systems for critical equipment.
+
+Liability Limitation:
+In no event shall Alexandru Emanuel Vasile be liable for any equipment damage,
+sample loss, data loss, or any indirect, incidental, special, or consequential
+damages arising from the use of this software, even if advised of the possibility
+of such damages.
+
+Third-Party Components:
+This software uses third-party datasets and libraries:
+- FLIR ADAS v2 Dataset (FLIR Systems, Inc.)
+- MIMII Dataset (Hitachi, Ltd.)
+- NASA Turbofan Engine Degradation Dataset (NASA Ames Research Center)
+- TensorFlow (Apache License 2.0)
+- See ACKNOWLEDGMENTS.md for complete list
+
+Users must comply with all third-party licenses and terms of use.

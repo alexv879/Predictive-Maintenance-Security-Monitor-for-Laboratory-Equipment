@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"Get-ChildItem -Path .\\datasets -Directory -Name\")",
+      "Bash(powershell -Command \"Get-ChildItem -Path .\\pythonsoftware -Name\")",
+      "Bash(powershell -Command:*)",
+      "Bash(python -m py_compile:*)",
+      "Bash(python:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File:*)",
+      "Bash(findstr:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "model": "models/checkpoints/thermal_smoke_test.h5",
+  "input_shape": [
+    224,
+    224,
+    3
+  ],
+  "export_sizes_mb": {
+    "float32": 45.64103317260742,
+    "dynamic": 11.417793273925781,
+    "int8": 11.418098449707031
+  },
+  "calibration_samples": 100
+}

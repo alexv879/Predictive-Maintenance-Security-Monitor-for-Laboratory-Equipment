@@ -1,0 +1,15 @@
+{
+  "model_name": "thermal_smoke_test",
+  "timestamp": "2025-10-29T03:08:49.282462",
+  "model_path": "D:\\PREMONITOR\\models\\checkpoints\\thermal_smoke_test.h5",
+  "final_metrics": {
+    "accuracy": 0.512499988079071,
+    "loss": 1.0401064157485962,
+    "val_accuracy": 0.5,
+    "val_loss": 0.7584384679794312
+  },
+  "training_config": {
+    "epochs": 2,
+    "final_epoch": 2
+  }
+}

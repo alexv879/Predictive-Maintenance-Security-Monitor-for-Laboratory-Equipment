@@ -1,0 +1,11 @@
+{
+  "thermal_xception": {
+    "name": "Xception ImageNet",
+    "filename": "xception_imagenet_notop.h5",
+    "downloaded_at": "2025-10-29T03:37:07.243152",
+    "size_bytes": 83683744,
+    "md5": "b0042744bf5b25fce3cb969f33bebb97",
+    "license": "MIT",
+    "description": "Xception pretrained on ImageNet (no top) - powerful thermal feature extractor"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "device_name": "premonitor_pi",
+  "location": "Lab A",
+  "sensor_read_interval": 30,
+  "thermal_threshold": 0.85,
+  "acoustic_threshold": 0.80,
+  "gas_threshold": 600,
+  "alert_channels": ["discord", "email"],
+  "email_recipient": "lab_manager@example.com",
+  "notes": "Main monitoring Pi for Lab A equipment"
+}

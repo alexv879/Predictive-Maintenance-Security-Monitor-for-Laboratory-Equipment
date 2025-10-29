@@ -1,0 +1,24 @@
+# PREMONITOR - Raspberry Pi Requirements
+# Minimal dependencies for edge deployment
+
+# Core runtime (install from Google Coral repo)
+# pip3 install --index-url https://google-coral.github.io/py-repo/ tflite_runtime
+
+# Numerical computing
+numpy>=1.21.0,<2.0.0
+
+# Image processing
+Pillow>=9.0.0
+
+# System monitoring
+psutil>=5.9.0
+
+# Audio processing (if using real microphone)
+# sounddevice>=0.4.6
+# soundfile>=0.12.0
+
+# Optional: For LSTM time-series models
+# scipy>=1.7.0
+
+# Note: DO NOT install full TensorFlow on Pi
+# Use tflite_runtime instead for minimal footprint

@@ -1,0 +1,91 @@
+# PREMONITOR .gitignore
+# Prevents large datasets, models, logs, and sensitive files from being pushed to GitHub
+
+# Large datasets (do NOT commit)
+datasets/
+*.csv
+*.wav
+*.mp3
+*.flac
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.tiff
+
+# Large model files (use Git LFS or releases instead)
+models/*.h5
+models/*.pb
+models/*.ckpt
+*.h5
+*.pb
+*.ckpt
+
+# Keep only small TFLite models
+!models/*.tflite
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Logs and runtime data
+logs/
+*.log
+captures/
+artifacts/
+
+# Environment variables (may contain secrets)
+.env
+.env.local
+*.env
+
+# OS files
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Config overrides (keep sample configs only)
+config/local_*.yml
+config/secrets.yml

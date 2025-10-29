@@ -1,0 +1,134 @@
+Project Premonitor: No-Budget First Development Plan
+This revised plan is tailored for a team with a Raspberry Pi and a development computer, but without an initial budget for sensors and other hardware. The goal is to build and validate the entire AI software system first, creating a powerful asset for seeking funding or for when hardware is acquired.
+
+Phase 1: "No-Budget" AI & Software Foundation (4 Weeks)
+Primary Goal: To develop and test the complete, end-to-end Premonitor software system on your Raspberry Pi, using public datasets as simulated sensor inputs.
+
+Week 1: Environment & Data Setup
+
+Team Task (on a powerful PC):
+
+Set up the main development environment (Python, TensorFlow, etc.).
+
+Download all necessary public datasets:
+
+Acoustic: MIMII / DCASE2020 (Start with 0_dB_fan.zip), Urbansound8K, ESC-50.
+
+Thermal (Stage 1): AAU VAP dataset.
+
+Thermal (Stage 2): FLIR Thermal Dataset.
+
+Time-Series: A subset of the CASAS dataset (e.g., "Aruba").
+
+Begin writing the data loading and pre-processing pipelines for spectrograms and thermal images.
+
+Team Task (on the Raspberry Pi):
+
+Install Raspberry Pi OS and set up the basic Python environment.
+
+Week 2: Foundational AI Model Training
+
+Team Task (on a powerful PC):
+
+Train the Thermal Anomaly Model (Multi-Stage):
+
+Load the XceptionNet model with its pre-trained ImageNet weights.
+
+Fine-tune this model on the AAU VAP dataset to learn general thermal properties.
+
+Continue fine-tuning the resulting model on the FLIR dataset to specialize in machine and electronic heat signatures.
+
+Train the Acoustic Anomaly Model (Multi-Stage):
+
+Use the GhostNetV2 backbone and train on the MIMII/DCASE datasets to learn core machine sounds.
+
+Fine-tune the model with Urbansound8K and ESC-50 to improve environmental robustness and reduce false positives.
+
+Document the initial performance benchmarks of both models.
+
+Week 3: Edge Deployment & Core Software Development
+
+Team Task (on a powerful PC):
+
+Quantize both trained models into efficient .tflite format using the TensorFlow Lite Converter.
+
+Team Task (on the Raspberry Pi):
+
+Copy the .tflite models and a small sample of the public datasets (for testing) to the Raspberry Pi.
+
+Write the core Python software skeleton: main.py, alert_manager.py, config.py.
+
+Implement the basic email alerting script.
+
+Week 4: Virtual Testing & System Validation
+
+Team Task (on the Raspberry Pi):
+
+Create a mock_hardware.py module. This script will simulate sensor readings by loading sample image and audio files from the datasets stored on the Pi's filesystem.
+
+Integrate this mock module with main.py.
+
+Perform a full, end-to-end system test: main.py calls the mock sensor, which provides data to the AI models, which in turn trigger a real email alert.
+
+Milestone: Software MVP Complete. You now have a fully functional software product running on your target hardware, ready to be connected to real sensors.
+
+Phase 2: Hardware Integration & MVP Completion (Post-Funding/Acquisition)
+(Target Timeline: 2 Weeks)
+
+Primary Goal: To procure the physical sensors and integrate them with the completed software "brain."
+
+Week 5: Hardware Procurement & Driver Development
+
+Action: Procure the MVP hardware components (Thermal Camera, USB Mic, Gas Sensor).
+
+Action: Write the real Python hardware driver scripts to read data from each new sensor. Test each sensor individually.
+
+Week 6: Full Integration & Testing
+
+Action: Replace the mock_hardware.py module with the real hardware driver scripts in your main application.
+
+Action: Perform end-to-end testing with the live sensors. Debug real-world issues like signal noise, latency, and data formatting.
+
+Milestone: Full MVP Complete. The system is now a functional physical prototype.
+
+Phase 3: Market Validation & Iteration (2 Weeks)
+Primary Goal: To use the now-functional hardware MVP to get validated learning from real customers.
+
+Week 7: Deploy, Measure & Analyze
+
+Action: Deploy the MVP in a friendly lab. Monitor and correlate its proactive alerts with the lab's existing systems. Prepare a report of findings.
+
+Week 8: The Learning Interview & V2.0 Roadmap
+
+Action: Conduct the learning interview with the lab manager to validate the core value proposition.
+
+Action: Based on their feedback, finalize the priorities for the V2.0 feature set (BLE sensors, Twilio alerts, Web Dashboard, etc.).
+
+Milestone: Core Hypothesis Validated. You are now ready to seek pre-seed investment using your MVP and customer validation as proof.
+
+Phase 4 & Beyond: Commercial Product Development
+(This section is executed post-validation and post-funding.)
+
+V2.0 Development: The Market-Ready Sentinel
+
+Build the commercial-grade product with BLE sensors, Twilio alerts, and the web dashboard.
+
+<ins>Technical Upgrade: Refactor to Multi-threaded Architecture.</ins>
+
+<ins>Action: Re-architect the main.py application to use a multi-threaded approach. Create separate, dedicated threads for thermal monitoring and acoustic monitoring. This will allow for simultaneous data acquisition and processing, making the system more responsive and ensuring no events are missed while another sensor is being processed.</ins>
+
+V2.5 Development: The Intelligence & Compliance Engine
+
+Add the Compliance & Reporting Engine and the Agentic AI Suggestion Engine.
+
+Advanced Time-Series AI:
+
+Action: Develop the anomaly detection modules for time-series data (gas, vibration, etc.).
+
+Import: Use the Isolation Forest algorithm from scikit-learn for fast, lightweight detection of point anomalies.
+
+Architecture: Implement the LSTM Autoencoder architecture (as validated in the Reis & Serôdio paper) to detect slower, sequential anomalies.
+
+Dataset: Use the public CASAS Smart Home Dataset to train and validate these time-series models on real-world behavioral patterns.
+
+Ongoing: Expand the sensor ecosystem and move into new verticals.

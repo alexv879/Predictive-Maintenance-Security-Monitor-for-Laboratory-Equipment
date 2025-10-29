@@ -1,0 +1,14 @@
+{
+  "model": "models/checkpoints/acoustic_smoke_test.h5",
+  "input_shape": [
+    128,
+    128,
+    1
+  ],
+  "export_sizes_mb": {
+    "float32": 14.138965606689453,
+    "dynamic": 3.5406646728515625,
+    "int8": 3.5426177978515625
+  },
+  "calibration_samples": 100
+}
